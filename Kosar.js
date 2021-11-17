@@ -11,21 +11,35 @@ class Kosar {
   }
 
   megjelenit() {
-    $(".kosar").empty();
-    $(".kosar").append("<table>");
+    $(".kosar table").html("");
 
-    $(".kosar table").append("<tr>");
-    for (var index in this.kosarTomb[0]) {
-      $(".kosar table tr").append("<th id=" + index + ">" + index + "</th>");
+    var txt;
+
+    for (let index = 0; index < this.kosarTomb.length; index++) {
+      txt +=
+        "<tr><td>" +
+        this.kosarTomb[index].nev +
+        "</td><td>" +
+        this.kosarTomb[index].ar +
+        " Ft</td>" +"<td><button type='button' class='torles' id=" +">&#10060;</button></td></tr>";
     }
 
-    for (var i = 0; i < this.kosarTomb.length; i++) {
-      $(".kosar table").append("<tr>");
-      for (var item in this.kosarTomb[i]) {
-        $(".kosar table tr")
-          .eq(i + 1)
-          .append("<td>" + this.kosarTomb[i][item] + "</td>");
-      }
+    $(".kosar table").html(txt);
+
+    var osszeg = 0;
+    this.kosarTomb.forEach((elem) => {
+      osszeg += elem.ar;
+    });
+
+    $(".kosar p").html("Összesen: " + osszeg + " Ft");
+
+    $(".torles").on("click", () => this.torles());
+    }
+
+    torles() {
+        let aktTermek = $(this).attr("data-id");
+        this.kosarTomb.splice(aktTermek, 1);
+        this.megjelenit();
     }
   }
-}
+
